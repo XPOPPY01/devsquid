@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Editor with Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+      background: url('https://cdn.mos.cms.futurecdn.net/WDBV52ZBsohECa3V9HeKyZ.jpg') no-repeat center;
+      background-size: cover;
+    }
+
+    /* Dark overlay effect */
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7); /* Adding shadow effect */
+      z-index: -1; /* Ensure the overlay is behind the content */
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 20px;
+      z-index: 1000;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar ul li {
+      padding-right: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      color: whitesmoke;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease;
+    }
+
+    .navbar ul li:hover {
+      transform: scale(1.1);
+    }
+
+    .animated-heading {
+      font-size: 32px;
+      color: whitesmoke;
+      margin-top: 50px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      animation: fadeIn 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0.5;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .container {
+      width: 70%;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .timer {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .problem-container h3 {
+      margin: 10px 0;
+    }
+
+    .problem-container {
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+      resize: none;
+      outline: none;
+      margin-top: 20px;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 18px;
+      padding: 10px 20px;
+      border-radius: 4px;
+    }
+
+    .green {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .red {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <ul>
+      <li href="dev.html">Home</li>
+      <li>About</li>
+      <li>Rules</li>
+      <li>Contact</li>
+    </ul>
+  </div>
+
+  <h1 class="animated-heading">Welcome to Stage 1 of Squid Game</h1>
+
+  <div class="container">
+    <div class="timer" id="timer">Time Left: 5:00</div>
+    <div class="problem-container" id="problem-container">
+      <h3>Random Coding Problem</h3>
+      <p id="problem"></p>
+    </div>
+    <textarea id="editor" placeholder="Write your code here..."></textarea>
+    <div class="status green" id="status">Allowed to Write</div>
+    <button id="submit-btn">Submit Code</button>
+  </div>
+
+  <script>
+    // Timer for 5 minutes
+    let totalTime = 300; // 5 minutes in seconds
+    const timerElement = document.getElementById("timer");
+
+    function updateTimer() {
+      const minutes = Math.floor(totalTime / 60);
+      const seconds = totalTime % 60;
+      timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+      if (totalTime > 0) {
+        totalTime--;
+      } else {
+        clearInterval(timerInterval);
+        alert("Time is up!");
+      }
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    // Toggle between red and green states
+    const editor = document.getElementById("editor");
+    const statusElement = document.getElementById("status");
+    let isAllowed = true;
+
+    function toggleState() {
+      if (isAllowed) {
+        isAllowed = false;
+        editor.disabled = true;
+        statusElement.textContent = "Not Allowed to Write";
+        statusElement.className = "status red";
+        setTimeout(() => {
+          isAllowed = true;
+          editor.disabled = false;
+          statusElement.textContent = "Allowed to Write";
+          statusElement.className = "status green";
+        }, 10000); // 10 seconds
+      }
+    }
+
+    setInterval(toggleState, 15000);
+
+    // Random Coding Problems
+    const problems = [
+      "Write a function to reverse a string.",
+      "Write a program to check if a number is prime.",
+      "Implement a function to find the factorial of a number.",
+      "Write a function to check if a string is a palindrome.",
+      "Write a program to sort an array of numbers.",
+      "Implement a function to calculate the Fibonacci sequence.",
+      "Write a program to find the greatest common divisor (GCD) of two numbers.",
+      "Write a function to find the maximum element in an array.",
+      "Implement a function to count the number of vowels in a string.",
+      "Write a program to check if two strings are anagrams."
+    ];
+
+    function getRandomProblem() {
+      const randomIndex = Math.floor(Math.random() * problems.length);
+      return problems[randomIndex];
+    }
+
+    const problemElement = document.getElementById("problem");
+    problemElement.textContent = getRandomProblem();
+
+    // Submit Code Button
+    const submitBtn = document.getElementById("submit-btn");
+    submitBtn.addEventListener("click", () => {
+      const userCode = editor.value.trim();
+      if (userCode === "") {
+        alert("Please write some code before submitting!");
+      } else {
+        alert("Your code has been submitted!");
+      }
+    });
+  </script>
+</body>
+</html>
