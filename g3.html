@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe with MCQs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://hips.hearstapps.com/hmg-prod/images/squid-game-the-challenge-655c9d3f1dfd1.jpg'); /* Replace with actual background image URL */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+   
+
+    .game-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    .game-container {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 45%;
+      transition: background 0.3s;
+    }
+
+    .timer {
+      font-size: 18px;
+      color: aliceblue;
+      font-weight: bold;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .mcq-container {
+      width: 45%;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      width: 100%;
+    }
+
+    .card h2 {
+      font-size: 18px;
+    }
+
+    .card button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .card button:hover {
+      background: #0056b3;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background: white;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .cell.taken {
+      background: #e0e0e0;
+      cursor: not-allowed;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-wrapper">
+    <div class="mcq-container">
+        <h1>Welcome to Game 3</h1>
+      <div class="card" id="mcq-card">
+        <h2 id="question">What does HTML stand for?</h2>
+        <button onclick="handleAnswer(this)" data-answer="Hyper Text Markup Language">Hyper Text Markup Language</button>
+        <button onclick="handleAnswer(this)" data-answer="Home Tool Markup Language">Home Tool Markup Language</button>
+        <button onclick="handleAnswer(this)" data-answer="Hyperlinks and Text Markup Language">Hyperlinks and Text Markup Language</button>
+      </div>
+    </div>
+ 
+    <div class="timer" id="timer">Time Left: 30s</div>
+
+    <div class="game-container" id="game-container">
+      <div class="board" id="board"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What does HTML stand for?",
+        options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
+        answer: "Hyper Text Markup Language",
+      },
+      {
+        question: "What is the value of Pi?",
+        options: ["3.14", "22/7", "Both are correct"],
+        answer: "Both are correct",
+      },
+      {
+        question: "Which programming language is used for React?",
+        options: ["Python", "JavaScript", "Java"],
+        answer: "JavaScript",
+      },
+      {
+        question: "What is CSS used for?",
+        options: ["Styling websites", "Structuring websites", "Interacting with APIs"],
+        answer: "Styling websites",
+      },
+      {
+        question: "Which tag is used for creating a hyperlink in HTML?",
+        options: ["<a>", "<link>", "<href>"],
+        answer: "<a>",
+      },
+    ];
+
+    let currentQuestionIndex = 0;
+    let board = Array(9).fill(null);
+    let isXNext = true;
+    const symbolsCount = { X: [], O: [] };
+    let currentPlayerCanMove = false;
+    let timerInterval;
+    let timeLeft = 30;
+
+    const boardElement = document.getElementById("board");
+    const questionElement = document.getElementById("question");
+    const mcqCard = document.getElementById("mcq-card");
+    const timerElement = document.getElementById("timer");
+    const gameContainer = document.getElementById("game-container");
+
+    function renderBoard() {
+      boardElement.innerHTML = "";
+      board.forEach((cell, idx) => {
+        const cellElement = document.createElement("div");
+        cellElement.classList.add("cell");
+        if (cell) {
+          cellElement.classList.add("taken");
+          cellElement.textContent = cell;
+        }
+        cellElement.onclick = () => handleCellClick(idx);
+        boardElement.appendChild(cellElement);
+      });
+    }
+
+    function handleAnswer(button) {
+      const answer = button.getAttribute("data-answer");
+      const currentQuestion = questions[currentQuestionIndex];
+
+      if (answer === currentQuestion.answer) {
+        currentPlayerCanMove = true;
+        nextQuestion();
+        resetTimer();
+      } else {
+        currentPlayerCanMove = false;
+        isXNext = !isXNext;
+        updateContainerColor();
+        alert("Wrong answer! Skipping your turn.");
+        nextQuestion();
+        resetTimer();
+      }
+    }
+
+    function handleCellClick(index) {
+      if (board[index] || !currentPlayerCanMove || checkWinner()) return;
+
+      const currentSymbol = isXNext ? "X" : "O";
+      if (symbolsCount[currentSymbol].length === 3) {
+        const [first, ...rest] = symbolsCount[currentSymbol];
+        board[first] = null;
+        symbolsCount[currentSymbol] = rest;
+      }
+
+      board[index] = currentSymbol;
+      symbolsCount[currentSymbol].push(index);
+      currentPlayerCanMove = false;
+      isXNext = !isXNext;
+      updateContainerColor();
+
+      if (checkWinner()) {
+        alert(`Player ${checkWinner()} wins!`);
+        resetGame();
+      }
+
+      renderBoard();
+    }
+
+    function checkWinner() {
+      const winningCombos = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+      ];
+
+      for (const [a, b, c] of winningCombos) {
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return board[a];
+        }
+      }
+      return null;
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+      questionElement.textContent = questions[currentQuestionIndex].question;
+      const buttons = mcqCard.querySelectorAll("button");
+      questions[currentQuestionIndex].options.forEach((option, idx) => {
+        buttons[idx].textContent = option;
+        buttons[idx].setAttribute("data-answer", option);
+      });
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timeLeft = 30;
+      updateTimer();
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          alert("Time's up! Skipping your turn.");
+          isXNext = !isXNext;
+          currentPlayerCanMove = false;
+          updateContainerColor();
+          nextQuestion();
+          resetTimer();
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      timerElement.textContent = `Time Left: ${timeLeft}s`;
+    }
+
+    function updateContainerColor() {
+      gameContainer.style.background = isXNext ? "rgba(255, 0, 0, 0.8)" : "rgba(0, 0, 255, 0.8)";
+    }
+
+    function resetGame() {
+      board = Array(9).fill(null);
+      symbolsCount.X = [];
+      symbolsCount.O = [];
+      currentPlayerCanMove = false;
+      isXNext = true;
+      updateContainerColor();
+      nextQuestion();
+      resetTimer();
+      renderBoard();
+    }
+
+    resetGame();
+  </script>
+</body>
+</html>
