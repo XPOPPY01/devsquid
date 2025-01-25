@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squid Game Shapes Animation</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://i.ytimg.com/vi/MUDkDjL9Zmc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBRSARC3eD3f4pZecq_2H6TdF0V2g'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-color: rgba(0, 0, 0, 0.6); /* Lightened background transparency */
+            background-blend-mode: darken;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .timer {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 150px);
+            grid-gap: 100px; /* Increased gap to move shapes further apart */
+        }
+
+        .box {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid white;
+            border-radius: 10px;
+            background-color: #222;
+            cursor: pointer; /* Makes the boxes look clickable */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+            transition: border 0.3s ease;
+        }
+
+        .box:focus, .box:active {
+            border: 3px solid black;
+            outline: none;
+        }
+
+        .shape {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background-color: #FF2442;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid #5BC0EB;
+        }
+
+        .square {
+            background-color: #3DDC97;
+        }
+
+        .star {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            background-color: #FFC93C;
+        }
+
+        .start-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid white;
+            border-radius: 5px;
+            cursor: pointer;
+            animation: glow 1.5s infinite alternate;
+            text-decoration: none;
+        }
+
+        .start-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Final Stage</h1>
+    <div class="timer" id="timer">5</div>
+    <div class="container">
+        <div class="box" onclick="selectShape('circle.html')">
+            <div class="shape circle"></div>
+        </div>
+        <div class="box" onclick="selectShape('triangle.html')">
+            <div class="shape triangle"></div>
+        </div>
+        <div class="box" onclick="selectShape('square.html')">
+            <div class="shape square"></div>
+        </div>
+        <div class="box" onclick="selectShape('star.html')">
+            <div class="shape star"></div>
+        </div>
+    </div>
+    <button class="start-button" onclick="startTimer()">Start</button>
+
+    <script>
+        let selectedPage = '';
+
+        function selectShape(page) {
+            selectedPage = page;
+            alert(`You selected ${page.replace('.html', '')}. Click Start to proceed.`);
+        }
+
+        function startTimer() {
+            if (!selectedPage) {
+                alert('Please select a shape first!');
+                return;
+            }
+
+            const timer = document.getElementById('timer');
+            timer.style.display = 'block';
+            let timeLeft = 5;
+
+            const countdown = setInterval(() => {
+                timeLeft--;
+                timer.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = selectedPage;
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
