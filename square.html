@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game Webpage</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('data:image/jpeg;base64,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') no-repeat center center/cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 90%;
+            height: 90%;
+        }
+
+        .section {
+            position: relative;
+            width: 40%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+            padding: 10px;
+        }
+
+        .red-square {
+            background-color: rgba(255, 0, 0, 0.5);
+        }
+
+        .blue-star {
+            background-color: rgba(0, 0, 255, 0.5);
+        }
+
+        .symbol {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            position: absolute;
+            top: -50px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            width: 90%;
+        }
+
+        .textarea {
+            margin-top: 10px;
+            width: 90%;
+            height: 70%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            resize: none;
+        }
+
+        .circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .circle span {
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .heading {
+            position: absolute;
+            top: 10px;
+            text-align: center;
+            width: 100%;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="heading">Are you sure you will beat me?</div>
+    <div class="container">
+        <div class="section red-square">
+            <div class="symbol">⬛</div>
+            <div class="question" id="red-question">Red's Question: None</div>
+            <textarea class="textarea" id="red-code" placeholder="Write your code here..."></textarea>
+        </div>
+        <div class="circle">
+            <span id="dice">🎲</span>
+        </div>
+        <div class="section blue-star">
+            <div class="symbol">⭐</div>
+            <div class="question" id="blue-question">Blue's Question: None</div>
+            <textarea class="textarea" id="blue-code" placeholder="Write your code here..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        // Questions mapped to dice numbers
+        const questions = {
+            1: "Explain the concept of closures in JavaScript.",
+            2: "Write a function to check if a string is a palindrome.",
+            3: "Describe the difference between var, let, and const.",
+            4: "Create a simple implementation of a stack using JavaScript.",
+            5: "Explain the event loop in JavaScript.",
+            6: "Implement a function to find the factorial of a number recursively."
+        };
+
+        const dice = document.getElementById('dice');
+        const redQuestion = document.getElementById('red-question');
+        const blueQuestion = document.getElementById('blue-question');
+
+        // Function to simulate dice roll
+        function rollDice() {
+            const number = Math.floor(Math.random() * 6) + 1;
+            const assignedQuestion = questions[number];
+
+            // Alternate assignment of questions
+            if (number % 2 === 0) {
+                redQuestion.textContent = `Red's Question: ${assignedQuestion}`;
+                blueQuestion.textContent = `Blue's Question: ${questions[number - 1] || questions[6]}`;
+            } else {
+                blueQuestion.textContent = `Blue's Question: ${assignedQuestion}`;
+                redQuestion.textContent = `Red's Question: ${questions[number + 1] || questions[1]}`;
+            }
+        }
+
+        // Add click event to the dice
+        dice.addEventListener('click', rollDice);
+    </script>
+</body>
+</html>
