@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevSquid: Learn, Play, and Collaborate</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://wallpapercat.com/w/full/1/c/4/46433-3840x2160-desktop-4k-squid-game-background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            animation: moveLeftRight 5s infinite linear;
+            white-space: nowrap;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00cec9;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            animation: fadeInDown 2s;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            animation: fadeInUp 2s;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 50px;
+        }
+
+        .feature {
+            background: rgba(0, 0, 0, 0.7);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1 1 30%;
+            text-align: center;
+            animation: popIn 1.5s;
+        }
+
+        .feature h3 {
+            font-size: 1.5rem;
+        }
+
+        .feature i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes moveLeftRight {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(30px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DevSquid</h1>
+        <nav>
+            <ul>
+                <li><a href="#learning">Learning</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="#multiplayer">profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Wecome Player 001 !</h2>
+        <p>Experience coding like never before with interactive challenges and games.</p>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <i class="fas fa-code"></i>
+            <h3>Learning Hub</h3>
+            <p>Real-world coding problems, tutorials, and leaderboards to track your progress.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-gamepad"></i>
+            <h3>Squid Game-Inspired Challenges</h3>
+            <p>Play exciting multiplayer coding games like Red Light, Green Light, Tug of War, and more.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-users"></i>
+            <h3>Multiplayer and Friends</h3>
+            <p>Connect with friends, collaborate, and compete in coding challenges.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 DevSquid. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
